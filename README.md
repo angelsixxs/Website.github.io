@@ -23,6 +23,7 @@ Dalen Ragsdale - @ba1en1
 
 # Whats in progress
 - Getting images for Higher Lower
+- building the base of the website and making it pop up
 ## License
 
                     GNU GENERAL PUBLIC LICENSE
