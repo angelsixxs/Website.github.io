@@ -1,4 +1,4 @@
-# Website Project
+# Website.github.io
 HighLow
 
 ## What it does (1 Paragraph)
