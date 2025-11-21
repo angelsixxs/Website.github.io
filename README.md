@@ -4,6 +4,8 @@ HighLow
 ## What it does (1 Paragraph)
 We are commited to making a game in HTML and Python about guessing prices of items using buttons. The website will display two images of items from a grocery store and will ask if item 1 is higher or lower than item 2. The game will track your score and will reset if you guess wrong. If you guess all 10 correctly, then you win the game.
 
+## What We Are Committed To
+We will be turning in a website with working buttons, images of grocery items getting displayed and a win and loss screen.
 
 ## Team Members
 Angel Navarro - @angelsixxs
