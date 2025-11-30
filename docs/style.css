@@ -18,16 +18,49 @@ body{
   width:100%;
   max-width: 480px;
   padding:24px;
+  border-redius: 18px;
+  background: rgba(10,10,18,.92);
+  box-shadow: 0 18px 45x rgba(0,0,0,.7);
+  boreder: 1px solid rgba(255,255,255,.05);
 }
 
 header{
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 h1{
-  font-size: 2.4rem;
-  letter-spacing: 0.12em;
+  font-size: 2.2rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   margin-bottom: 8px;
+}
+
+.subtitle{
+  font-size: .95rem;
+  color: #b0b0b0;
+}
+
+.btn{
+  flex: 1;
+  padding: 12px 0;
+  border-radius: 999px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: .95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+
+.btn-lower{
+  background: lineaer-gradient(135deg, #b8273b, #7b0f21);
+  color: #fff;
+}
+
+.btn-higher{
+  background: linear-gradient(135deg,#2c9c4b, #167031);
+   color: #fff;                     
 }
