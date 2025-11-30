@@ -64,3 +64,13 @@ h1{
   background: linear-gradient(135deg,#2c9c4b, #167031);
    color: #fff;                     
 }
+
+.btn:hover {
+transform: translateY(-2px);
+box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
+}
+
+.btn:active {
+transform: translateY(0) scale(0.98);
+box-shadow: 0 6px 14px rgba(0, 0, 0, 0.7);
+}
