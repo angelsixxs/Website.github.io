@@ -32,11 +32,11 @@ def game():
 
         return render_template("index.html", result=result)
 
-    # Pick two random foods
+    ## Pick 2 foods
     foods = list(food_prices.keys())
     food1, food2 = random.sample(foods, 2)
 
-    # Determine which is more expensive
+    ## Compare prices to find the more expensive one
     correct_answer = food1 if food_prices[food1] > food_prices[food2] else food2
 
     return render_template(

@@ -6,6 +6,49 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
         <title>Higher or Lower</title>
+        <style>
+            body {
+                font-family: Calibri;
+                text-align: center;
+                background: gray;
+                padding-top: 30px;
+            }
+            .container {
+                display: flex;
+                justify-content: center;
+                gap: 40px;
+                margin-top: 40px;
+            }
+
+            .item {
+                border: 2px solid #ccc;
+                padding: 20px;
+                border-radius: 10px;
+                background: white;
+            }
+
+            img {
+                width: 400px;
+                border-radius: 10px;
+            }
+
+            button {
+                margin-top: 10px;
+                padding: 10px 20px;
+                font-size: 24px;
+                cursor: pointer;
+                background-color: green;
+                border: 2px dotted black;
+                color: white;
+                border-radius: 5px;
+            }
+
+            a {
+                font-size: 25px;
+                color: blue;
+                text-decoration: none;
+            }
+        </style>
     </head>
     <body>
         <div class="container">
@@ -13,12 +56,31 @@
             <h1> HIGHER OR LOWER</h1>
             <p class="subtitle"> Guess which grocery item is Higher?</p>
             </header>
+
+            {% if result %}
+                <h2>{{ result }}</h2>
+                <a href="/">Play again</a>
+
+            {% else %}
+                <form method="post">
+                    <div class="container">
+                        <div class="item">
+                            <img src="{{ url_for('static', filename='foods/' + food1) }}"
+                            <br />
+                            <button name="choice" value="{{ food1 }}">Higher</button>
+                        </div>
+
+                        <div class="item">
+                            <img src="{{ url_for('static', filename='foods/' + food2) }}"
+                            <br />
+                            <button name="choice" value="{{ food2 }}">Higher</button>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="correct" value="{{ correct }}" />
             
-            
-            <div class="buttons">
-                <button class="btn btn-lower">Lower</button>
-                <button class="btn btn-higher">Higher</button>
-            </div>
+                </form>
+            {% endif %}
             <div class="stats">
                 <span>Score:<strong>0</strong></span>
 
@@ -26,7 +88,7 @@
                 <footer>
                     <a href= "./about.html" class="link-about">About this game </a>
                 </footer>
-        </div>
+            
     </body>
 
 </html>
