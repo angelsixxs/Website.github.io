@@ -12,20 +12,24 @@ Angel Navarro - @angelsixxs
 Dalen Ragsdale - @ba1en1
 
 ## Setup Instructions (How to run project)
+- pip install flask
+- python app.py
+- head to http://127.0.0.1:5000/
 
 ## Technologies Used
-- HTML, Python
+- HTML, Python, Flask for Python
 
 ## Project Structures
-'src/' - main website files
 'docs/' - documentation or notes
-'assets/' - images, sounds
+'src/' - code files
+'static/' - contains foods/ which holds food items and their prices
+'templates/' - contains main html file
 
 ## How to contribute
 
 # Whats in progress
-- Getting images for Higher Lower
-- building the base of the website and making it pop up
+- Fixing the format
+- Writing code to track score
 
 ## User Stories
 
