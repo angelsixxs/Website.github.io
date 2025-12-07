@@ -1,83 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-    <title>Higher or Lower</title>
-  </head>
-  <body>
-    <div class="container">
-      <header>
-        <h1>HIGHER OR LOWER</h1>
-        <p class="subtitle">Guess if item 1 is higher or lower than item 2.</p>
-      </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Higher or Lower</title>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>HIGHER OR LOWER</h1>
+      <p class="subtitle">Guess if item 1 is higher or lower than item 2.</p>
+    </header>
 
-      <div class="top-row">
-        <p class="score">
-          Score: <strong>{{ score }}</strong> / 10
-        </p>
-        <a href="{{ url_for('about') }}" class="link-about">About this game</a>
+    <div class="top-row">
+      <p class="score">
+        Score: <strong id="scoreValue">0</strong> / 10
+      </p>
+      <a href="about.html" class="link-about">About this game</a>
+    </div>
+
+    <div id="message" class="message" style="display:none;"></div>
+
+    <div class="game-grid">
+      <div class="item">
+        <img id="item1Img" src="" alt="" />
+        <p class="item-name" id="item1Name"></p>
+        <p class="item-text">Price: ???</p>
       </div>
 
-      {% if message %}
-      <div class="message">{{ message }}</div>
-      {% endif %}
-
-      <form method="post" class="game-grid">
-        <div class="item">
-          <img
-            src="{{ url_for('static', filename='foods/' + item1.filename) }}"
-            alt="{{ item1.name }}"
-          />
-          <p class="item-name">{{ item1.name }}</p>
-          <p class="item-text">Price: ???</p>
-        </div>
-
-        <div class="item">
-          <img
-            src="{{ url_for('static', filename='foods/' + item2.filename) }}"
-            alt="{{ item2.name }}"
-          />
-          <p class="item-name">{{ item2.name }}</p>
-          <p class="item-text">
-            Price: ${{ "%.2f"|format(item2.price) }}
-          </p>
-          <p class="item-label">
-            Is item 1 <strong>higher</strong> or <strong>lower</strong> than this?
-          </p>
-        </div>
-
-        <div class="button-row">
-          <button
-            type="submit"
-            name="guess"
-            value="higher"
-            class="btn btn-higher"
-          >
-            Higher
-          </button>
-          <button
-            type="submit"
-            name="guess"
-            value="lower"
-            class="btn btn-lower"
-          >
-            Lower
-          </button>
-        </div>
-      </form>
+      <div class="item">
+        <img id="item2Img" src="" alt="" />
+        <p class="item-name" id="item2Name"></p>
+        <p class="item-text">
+          Price: $<span id="item2Price"></span>
+        </p>
+        <p class="item-label">
+          Is item 1 <strong>higher</strong> or <strong>lower</strong> than this?
+        </p>
+      </div>
     </div>
-  </body>
+
+    <div class="button-row">
+      <button id="btnHigher" class="btn btn-higher">Higher</button>
+      <button id="btnLower" class="btn btn-lower">Lower</button>
+    </div>
+  </div>
+
+  <script>
+    const items = [
+      { name: "Eggs",               file: "foods/01_eggs.png",             price: 2.99 },
+      { name: "Milk",               file: "foods/02_milk.png",             price: 2.32 },
+      { name: "Orange Juice",       file: "foods/03_orange_juice.png",     price: 4.30 },
+      { name: "Bread",              file: "foods/04_bread.png",            price: 3.64 },
+      { name: "Vitamin D Pills",    file: "foods/05_vitamin_d.png",        price: 6.38 },
+      { name: "Sirloin Steak",      file: "foods/06_steak.png",            price: 13.45 },
+      { name: "Red Apple",          file: "foods/07_red_apple.png",        price: 4.87 },
+      { name: "Whipped Cream",      file: "foods/08_whipped_cream.png",    price: 4.54 },
+      { name: "Shredded Chicken",   file: "foods/09_shredded_chicken.png", price: 7.24 },
+      { name: "Frozen Apple Pie",   file: "foods/10_apple_pie.png",        price: 5.63 },
+      { name: "Macaroni Pasta Mix", file: "foods/11_maccaroni_pasta.png",  price: 8.38 },
+    ];
+
+    let score = 0;
+    let current1 = null;
+    let current2 = null;
+    let correctAnswer = null; // "higher" or "lower"
+
+    const scoreEl = document.getElementById("scoreValue");
+    const msgEl = document.getElementById("message");
+    const item1Img = document.getElementById("item1Img");
+    const item2Img = document.getElementById("item2Img");
+    const item1Name = document.getElementById("item1Name");
+    const item2Name = document.getElementById("item2Name");
+    const item2Price = document.getElementById("item2Price");
+
+    function pickTwo() {
+      const idx1 = Math.floor(Math.random() * items.length);
+      let idx2;
+      do {
+        idx2 = Math.floor(Math.random() * items.length);
+      } while (idx2 === idx1);
+      current1 = items[idx1];
+      current2 = items[idx2];
+
+      if (current1.price > current2.price) {
+        correctAnswer = "higher";
+      } else if (current1.price < current2.price) {
+        correctAnswer = "lower";
+      } else {
+        // if exactly equal, just pick again
+        pickTwo();
+        return;
+      }
+
+      render();
+    }
+
+    function render() {
+      item1Img.src = current1.file;
+      item1Img.alt = current1.name;
+      item1Name.textContent = current1.name;
+
+      item2Img.src = current2.file;
+      item2Img.alt = current2.name;
+      item2Name.textContent = current2.name;
+      item2Price.textContent = current2.price.toFixed(2);
+
+      msgEl.style.display = "none";
+    }
+
+    function showMessage(text) {
+      msgEl.textContent = text;
+      msgEl.style.display = "block";
+    }
+
+    function handleGuess(guess) {
+      if (!correctAnswer) return;
+
+      if (guess === correctAnswer) {
+        score++;
+        if (score >= 10) {
+          showMessage("You got all 10 correct – you win! Score reset.");
+          score = 0;
+        } else {
+          showMessage("Correct!");
+        }
+      } else {
+        showMessage("Wrong! Score reset.");
+        score = 0;
+      }
+
+      scoreEl.textContent = score;
+      pickTwo();
+    }
+
+    document.getElementById("btnHigher").addEventListener("click", () => {
+      handleGuess("higher");
+    });
+
+    document.getElementById("btnLower").addEventListener("click", () => {
+      handleGuess("lower");
+    });
+
+    // first round
+    pickTwo();
+  </script>
+</body>
 </html>
-
-
-
-
-
-
-
