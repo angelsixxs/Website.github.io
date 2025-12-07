@@ -64,49 +64,49 @@
     ];
 
     let score = 0;
-    let current1 = null;
-    let current2 = null;
-    let correctAnswer = null; // "higher" or "lower"
+    let item1 = null;
+    let item2 = null;
+    let correctAnswer = null;
 
     const scoreEl = document.getElementById("scoreValue");
     const msgEl = document.getElementById("message");
     const item1Img = document.getElementById("item1Img");
-    const item2Img = document.getElementById("item2Img");
     const item1Name = document.getElementById("item1Name");
+    const item2Img = document.getElementById("item2Img");
     const item2Name = document.getElementById("item2Name");
     const item2Price = document.getElementById("item2Price");
 
     function pickTwo() {
-      const idx1 = Math.floor(Math.random() * items.length);
-      let idx2;
+      const i1 = Math.floor(Math.random() * items.length);
+      let i2;
       do {
-        idx2 = Math.floor(Math.random() * items.length);
-      } while (idx2 === idx1);
-      current1 = items[idx1];
-      current2 = items[idx2];
+        i2 = Math.floor(Math.random() * items.length);
+      } while (i2 === i1);
 
-      if (current1.price > current2.price) {
+      item1 = items[i1];
+      item2 = items[i2];
+
+      if (item1.price > item2.price) {
         correctAnswer = "higher";
-      } else if (current1.price < current2.price) {
+      } else if (item1.price < item2.price) {
         correctAnswer = "lower";
       } else {
-        // if exactly equal, just pick again
         pickTwo();
         return;
       }
 
-      render();
+      renderItems();
     }
 
-    function render() {
-      item1Img.src = current1.file;
-      item1Img.alt = current1.name;
-      item1Name.textContent = current1.name;
+    function renderItems() {
+      item1Img.src = item1.file;
+      item1Img.alt = item1.name;
+      item1Name.textContent = item1.name;
 
-      item2Img.src = current2.file;
-      item2Img.alt = current2.name;
-      item2Name.textContent = current2.name;
-      item2Price.textContent = current2.price.toFixed(2);
+      item2Img.src = item2.file;
+      item2Img.alt = item2.name;
+      item2Name.textContent = item2.name;
+      item2Price.textContent = item2.price.toFixed(2);
 
       msgEl.style.display = "none";
     }
@@ -144,11 +144,8 @@
       handleGuess("lower");
     });
 
-    // first round
     pickTwo();
   </script>
 </body>
 </html>
-
-
 
