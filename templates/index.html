@@ -1,101 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
-        <title>Higher or Lower</title>
-        <style>
-            body {
-                font-family: Calibri;
-                text-align: center;
-                background: gray;
-                padding-top: 30px;
-            }
-            .container {
-                display: flex;
-                justify-content: center;
-                gap: 40px;
-                margin-top: 40px;
-            }
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <title>Higher or Lower</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>HIGHER OR LOWER</h1>
+        <p class="subtitle">Guess if item 1 is higher or lower than item 2.</p>
+      </header>
 
-            .item {
-                border: 2px solid #ccc;
-                padding: 20px;
-                border-radius: 10px;
-                background: white;
-            }
+      <div class="top-row">
+        <p class="score">
+          Score: <strong>{{ score }}</strong> / 10
+        </p>
+        <a href="{{ url_for('about') }}" class="link-about">About this game</a>
+      </div>
 
-            img {
-                width: 400px;
-                border-radius: 10px;
-            }
+      {% if message %}
+      <div class="message">{{ message }}</div>
+      {% endif %}
 
-            button {
-                margin-top: 10px;
-                padding: 10px 20px;
-                font-size: 24px;
-                cursor: pointer;
-                background-color: green;
-                border: 2px dotted black;
-                color: white;
-                border-radius: 5px;
-            }
+      <form method="post" class="game-grid">
+        <div class="item">
+          <img
+            src="{{ url_for('static', filename='foods/' + item1.filename) }}"
+            alt="{{ item1.name }}"
+          />
+          <p class="item-name">{{ item1.name }}</p>
+          <p class="item-text">Price: ???</p>
+        </div>
 
-            a {
-                font-size: 25px;
-                color: blue;
-                text-decoration: none;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <header>
-            <h1> HIGHER OR LOWER</h1>
-            <p class="subtitle"> Guess which grocery item is Higher?</p>
-            </header>
+        <div class="item">
+          <img
+            src="{{ url_for('static', filename='foods/' + item2.filename) }}"
+            alt="{{ item2.name }}"
+          />
+          <p class="item-name">{{ item2.name }}</p>
+          <p class="item-text">
+            Price: ${{ "%.2f"|format(item2.price) }}
+          </p>
+          <p class="item-label">
+            Is item 1 <strong>higher</strong> or <strong>lower</strong> than this?
+          </p>
+        </div>
 
-            {% if result %}
-                <h2>{{ result }}</h2>
-                <a href="/">Play again</a>
-
-            {% else %}
-                <form method="post">
-                    <div class="container">
-                        <div class="item">
-                            <img src="{{ url_for('static', filename='foods/' + food1) }}"
-                            <br />
-                            <button name="choice" value="{{ food1 }}">Higher</button>
-                        </div>
-
-                        <div class="item">
-                            <img src="{{ url_for('static', filename='foods/' + food2) }}"
-                            <br />
-                            <button name="choice" value="{{ food2 }}">Higher</button>
-                        </div>
-                    </div>
-
-                    <input type="hidden" name="correct" value="{{ correct }}" />
-            
-                </form>
-            {% endif %}
-            <div class="stats">
-                <span>Score:<strong>0</strong></span>
-
-            </div>
-                <footer>
-                    <a href= "./about.html" class="link-about">About this game </a>
-                </footer>
-            
-    </body>
-
+        <div class="button-row">
+          <button
+            type="submit"
+            name="guess"
+            value="higher"
+            class="btn btn-higher"
+          >
+            Higher
+          </button>
+          <button
+            type="submit"
+            name="guess"
+            value="lower"
+            class="btn btn-lower"
+          >
+            Lower
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
 </html>
-
-
-
-
-
 
 
